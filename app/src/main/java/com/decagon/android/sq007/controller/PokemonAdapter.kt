@@ -7,18 +7,24 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.decagon.android.sq007.databinding.CardviewBinding
-import com.decagon.android.sq007.model.PokemonModel
+import com.decagon.android.sq007.model.mainModel.PokemonModel
+import com.decagon.android.sq007.model.mainModel.Result
 
-class PokemonAdapter(var items: List<PokemonModel>, private val listener: OnItemClickListener, private val context: Context) :
+class PokemonAdapter(var items: PokemonModel, private val listener: OnItemClickListener, private val context: Context) :
     RecyclerView.Adapter<PokemonAdapter.CardViewHolder>() {
 
     inner class CardViewHolder constructor(val binding: CardviewBinding) :
         RecyclerView.ViewHolder(binding.root),
         View.OnClickListener {
-        fun bind(pokemonModel: PokemonModel) {
-            binding.pokemonTitle.text = pokemonModel.name
-            binding.pokemonAbility.text = pokemonModel.abilities[0].ability.name
-            Glide.with(context).load(items[adapterPosition])
+        fun bind(result: Result) {
+            binding.pokemonTitle.text = result.name
+            binding.recyclerViewPokemonImage
+            Glide.with(context)
+                .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$adapterPosition.png")
+                .into(binding.recyclerViewPokemonImage)
+
+            //  binding.pokemonAbility.text = pokeAbility.abilities[0].ability.name
+            //  Glide.with(context).load(items[position].forms[1].url)
         }
 
         init {
@@ -28,7 +34,7 @@ class PokemonAdapter(var items: List<PokemonModel>, private val listener: OnItem
         override fun onClick(v: View?) {
             val position: Int = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(position, items)
+                //  listener.onItemClick(position, items)
             }
         }
     }
@@ -39,14 +45,14 @@ class PokemonAdapter(var items: List<PokemonModel>, private val listener: OnItem
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items.results[position])
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return items.results.size
     }
 }
 
 interface OnItemClickListener {
-    fun onItemClick(position: Int, items: List<PokemonModel>)
+    fun onItemClick(position: Int, items: PokemonModel)
 }

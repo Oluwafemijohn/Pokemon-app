@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Decagon Android 007</string>
+    <string name="pokemon_title">Pokemon title</string>
+    <string name="pokemon_image">Pokemon image</string>
 </resources>
